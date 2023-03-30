@@ -5,14 +5,24 @@
 [PostCSS]: https://github.com/postcss/postcss
 
 ```css
-.foo {
-  /* Input example */
+:root {
+  --color-blue: #0000ff;
 }
+
+@utils;
 ```
 
 ```css
-.foo {
-  /* Output example */
+:root {
+  --color-blue: #0000ff;
+}
+
+.bgBlue {
+  background-color: var(--color-blue);
+}
+
+.textBlue {
+  color: var(--color-blue);
 }
 ```
 
