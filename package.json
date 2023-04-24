@@ -1,11 +1,12 @@
 {
-  "name": "postcss-util-generator",
+  "name": "@lucasdinonolte/postcss-util-generator",
   "version": "0.0.0",
   "description": "PostCSS plugin generating utility classes from custom properties",
   "keywords": ["postcss", "css", "postcss-plugin", "postcss-util-generator"],
   "scripts": {
     "test": "jest --coverage && eslint ."
   },
+  "main": "src/index.js",
   "author": "Lucas Nolte <lucas@designsystems.international>",
   "license": "MIT",
   "repository": "lucasdinonolte/postcss-util-generator",

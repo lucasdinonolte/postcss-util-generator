@@ -10,26 +10,49 @@ async function run(input, output, opts = {}) {
   expect(result.warnings()).toHaveLength(0);
 }
 
-const input = `:root {
+const rootDecl = `:root {
   --color-blue: #0000ff;
-}
+  --color-blue-100: #0000ff;
+}`;
 
-@utils;`;
-
-const output = `:root {
-  --color-blue: #0000ff;
-}
-
-.bgBlue {
+const utilCss = `.bgBlue {
   background-color: var(--color-blue);
+}
+
+.bgBlue100 {
+  background-color: var(--color-blue-100);
 }
 
 .textBlue {
   color: var(--color-blue);
+}
+
+.textBlue100 {
+  color: var(--color-blue-100);
 }`;
+
+const input = `${rootDecl}
+
+@utils;`;
+
+const inputReverse = `@utils;
+
+${rootDecl}`;
+
+const output = `${rootDecl}
+
+${utilCss}`;
+
+const outputReverse = `${utilCss}
+
+${rootDecl}`;
 
 describe('postcss-util-generator', () => {
   it('works', async () => {
     await run(input, output, {});
+  });
+
+  it('works with reverse', async () => {
+    await run(inputReverse, outputReverse);
   });
 });
