@@ -17,7 +17,12 @@ module.exports = (opts = {}) => {
 
   return {
     postcssPlugin: 'postcss-util-generator',
-    // Find all global custom properties and add them to the props object
+
+    /**
+     * Before doing any processing we walk the entire tree to find all the
+     * custom properties at the root level. These are stored in the props
+     * object to be turned into rules later.
+     */
     Once(root) {
       root.walkDecls((decl) => {
         if (decl.parent?.selector === ':root') {
@@ -42,18 +47,39 @@ module.exports = (opts = {}) => {
           const collectedProps = props[util];
           const utilMap = utilities[util].utilities;
 
-          for (const [key, value] of Object.entries(utilMap)) {
+          for (const [key, valueResolver] of Object.entries(utilMap)) {
             for (const [name, val] of Object.entries(collectedProps)) {
-              const cleanedName = name.split('-').map((k) => k.replaceAll(/[-_]/g, ''));
+              const varValue = `var(${val})`;
+              let value = {};
+
+              const cleanedName = name
+                .split('-')
+                .map((k) => k.replaceAll(/[-_]/g, ''));
+
               const rule = new Rule({
-                selector: `.${pluginOptions.classNameGenerator([key, ...cleanedName])}`,
+                selector: `.${pluginOptions.classNameGenerator([
+                  key,
+                  ...cleanedName,
+                ])}`,
               });
 
-              for (const prop of value) {
+              if (Array.isArray(valueResolver)) {
+                for (const prop of valueResolver) {
+                  value[prop] = varValue;
+                }
+              } else if (typeof valueResolver === 'function') {
+                value = valueResolver(varValue);
+              } else {
+                throw new Error(
+                  `Invalid value resolver for ${key}. Exptected an array or function, got ${typeof valueResolver}`
+                );
+              }
+
+              for (const [prop, val] of Object.entries(value)) {
                 rule.append(
                   new Declaration({
                     prop,
-                    value: `var(${val})`,
+                    value: val,
                   })
                 );
               }

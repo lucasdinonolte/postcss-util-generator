@@ -25,7 +25,7 @@ module.exports.defaultOptions = {
     color: {
       customPropertyRegex: /^--color-/,
       utilities: {
-        bg: ['background-color'],
+        bg: (v) => ({ 'background-color': v }),
         text: ['color'],
       },
     },

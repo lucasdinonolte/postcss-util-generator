@@ -13,6 +13,12 @@ async function run(input, output, opts = {}) {
 const rootDecl = `:root {
   --color-blue: #0000ff;
   --color-blue-100: #0000ff;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --color-blue: #0000ff;
+  }
 }`;
 
 const utilCss = `.bgBlue {
