@@ -60,8 +60,15 @@ module.exports = (opts = {}) => {
             const { properties, items } = staticUtilities[util];
 
             for (const [key, value] of Object.entries(items)) {
+              const cleanedName = key
+                .split('-')
+                .map((k) => k.replaceAll(/[-_]/g, ''));
+
               const rule = new Rule({
-                selector: `.${pluginOptions.classNameGenerator([util, key])}`,
+                selector: `.${pluginOptions.classNameGenerator([
+                  util,
+                  ...cleanedName,
+                ])}`,
               });
 
               for (const prop of properties) {
