@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postcss-util-generator generates static utilities 1`] = `
+".textLeft {
+    text-align: left
+}
+.textRight {
+    text-align: right
+}"
+`;
+
+exports[`postcss-util-generator should only build the specified utilities 1`] = `
+":root {
+  --color-blue: #0000ff;
+  --color-blue-100: #0000ff;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --color-blue: #0000ff;
+  }
+}; .textBlue {
+  color: var(--color-blue);
+}; .textBlue100 {
+  color: var(--color-blue-100);
+}"
+`;
+
+exports[`postcss-util-generator works 1`] = `
+":root {
+  --color-blue: #0000ff;
+  --color-blue-100: #0000ff;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --color-blue: #0000ff;
+  }
+}
+
+.bgBlue {
+  background-color: var(--color-blue);
+}
+
+.bgBlue100 {
+  background-color: var(--color-blue-100);
+}
+
+.textBlue {
+  color: var(--color-blue);
+}
+
+.textBlue100 {
+  color: var(--color-blue-100);
+}"
+`;
+
+exports[`postcss-util-generator works with reverse 1`] = `
+".bgBlue {
+  background-color: var(--color-blue);
+}
+
+.bgBlue100 {
+  background-color: var(--color-blue-100);
+}
+
+.textBlue {
+  color: var(--color-blue);
+}
+
+.textBlue100 {
+  color: var(--color-blue-100);
+}
+
+:root {
+  --color-blue: #0000ff;
+  --color-blue-100: #0000ff;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --color-blue: #0000ff;
+  }
+}"
+`;

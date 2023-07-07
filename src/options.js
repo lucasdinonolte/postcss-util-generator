@@ -22,10 +22,15 @@ module.exports.defaultOptions = {
         pl: ['padding-left'],
       },
     },
-    color: {
+    background: {
       customPropertyRegex: /^--color-/,
       utilities: {
         bg: (v) => ({ 'background-color': v }),
+      },
+    },
+    color: {
+      customPropertyRegex: /^--color-/,
+      utilities: {
         text: ['color'],
       },
     },
