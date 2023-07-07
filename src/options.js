@@ -30,4 +30,10 @@ module.exports.defaultOptions = {
       },
     },
   },
+  staticUtilities: {
+    text: {
+      items: { left: 'left', right: 'right', center: 'center' },
+      properties: ['text-align'],
+    },
+  },
 };

@@ -55,10 +55,29 @@ ${rootDecl}`;
 
 describe('postcss-util-generator', () => {
   it('works', async () => {
-    await run(input, output, {});
+    await run(input, output, { staticUtilities: {} });
   });
 
   it('works with reverse', async () => {
-    await run(inputReverse, outputReverse);
+    await run(inputReverse, outputReverse, { staticUtilities: {} });
+  });
+
+  it('generates static utilities', async () => {
+    const staticInput = `@utils`;
+    const staticOutput = `.textLeft {
+    text-align: left
+}
+.textRight {
+    text-align: right
+}`;
+
+    await run(staticInput, staticOutput, {
+      staticUtilities: {
+        text: {
+          items: { left: 'left', right: 'right' },
+          properties: ['text-align'],
+        },
+      },
+    });
   });
 });

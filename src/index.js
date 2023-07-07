@@ -4,7 +4,7 @@ const { defaultOptions } = require('./options');
  * @type {import('postcss').PluginCreator}
  */
 module.exports = (opts = {}) => {
-  const { utilities, ...pluginOptions } = Object.assign(
+  const { utilities, staticUtilities, ...pluginOptions } = Object.assign(
     {},
     defaultOptions,
     opts
@@ -43,6 +43,30 @@ module.exports = (opts = {}) => {
     AtRule: {
       utils: (atRule, { Declaration, Rule }) => {
         const rules = [];
+
+        // Static Utilities
+        for (const util of Object.keys(staticUtilities)) {
+          const { properties, items } = staticUtilities[util];
+
+          for (const [key, value] of Object.entries(items)) {
+            const rule = new Rule({
+              selector: `.${pluginOptions.classNameGenerator([util, key])}`,
+            });
+
+            for (const prop of properties) {
+              rule.append(
+                new Declaration({
+                  prop,
+                  value,
+                })
+              );
+            }
+
+            rules.push(rule);
+          }
+        }
+
+        // Utilities generated from custom properties
         for (const util of Object.keys(utilities)) {
           const collectedProps = props[util];
           const utilMap = utilities[util].utilities;
