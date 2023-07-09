@@ -15,6 +15,12 @@ module.exports = (opts = {}) => {
     props[util] = {};
   }
 
+  const makeClassName = (...parts) =>
+    `.${pluginOptions.classNameGenerator([
+      pluginOptions.classNamePrefix,
+      ...parts,
+    ].filter(Boolean))}`;
+
   return {
     postcssPlugin: 'postcss-util-generator',
 
@@ -65,10 +71,7 @@ module.exports = (opts = {}) => {
                 .map((k) => k.replaceAll(/[-_]/g, ''));
 
               const rule = new Rule({
-                selector: `.${pluginOptions.classNameGenerator([
-                  util,
-                  ...cleanedName,
-                ])}`,
+                selector: makeClassName(util, ...cleanedName),
               });
 
               for (const prop of properties) {
@@ -101,10 +104,7 @@ module.exports = (opts = {}) => {
                   .map((k) => k.replaceAll(/[-_]/g, ''));
 
                 const rule = new Rule({
-                  selector: `.${pluginOptions.classNameGenerator([
-                    key,
-                    ...cleanedName,
-                  ])}`,
+                  selector: makeClassName(key, ...cleanedName),
                 });
 
                 if (Array.isArray(valueResolver)) {

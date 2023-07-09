@@ -1,6 +1,7 @@
 const { camelCaseFromArray } = require('./string');
 
 module.exports.defaultOptions = {
+  classNamePrefix: '',
   classNameGenerator: camelCaseFromArray,
   utilities: {
     space: {
